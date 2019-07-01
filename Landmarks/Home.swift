@@ -37,13 +37,15 @@ struct CategoryHome : View {
                 }
             }
             .navigationBarTitle(Text("Featured"))
-//            .navigationBarItems(trailing:
-//                PresentationButton(destination: LandmarkDetail(landmark: landmarkData[0])) {
-//                    Image(systemName: "person.crop.circle")
-//                        .imageScale(.large)
-//                        .accessibility(label: Text("User Profile"))
-//                        .padding()                }
-//            )
+                .navigationBarItems(trailing:
+                    PresentationButton(
+                        Image(systemName: "person.crop.circle")
+                            .imageScale(.large)
+                            .accessibility(label: Text("User Profile"))
+                            .padding(),
+                        destination: ProfileHost()
+                    )
+            )
         }
     }
 }
