@@ -31,7 +31,7 @@ struct LandmarkList : View {
 #if DEBUG
 struct LandmarkList_Previews : PreviewProvider {
     static var previews: some View {
-        ForEach(["iPhone XS"].identified(by: \.self)) {
+        ForEach(["iPhone XS","iPhone SE"].identified(by: \.self)) {
             deviceName in
             LandmarkList()
                 .environmentObject(UserData())
