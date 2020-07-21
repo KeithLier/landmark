@@ -9,7 +9,7 @@
 import SwiftUI
 import Combine
 
-final class UserData: BindableObject  {
+final class UserData: ObservableObject  {
     let didChange = PassthroughSubject<UserData, Never>()
     
     var showFavoritesOnly = false {
@@ -23,4 +23,6 @@ final class UserData: BindableObject  {
             didChange.send(self)
         }
     }
+    
+    @Published var profile = Profile.default
 }

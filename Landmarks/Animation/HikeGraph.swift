@@ -19,6 +19,15 @@ func magnitude(of range: Range<Double>) -> Double {
     return range.upperBound - range.lowerBound
 }
 
+extension Animation {
+    static func ripple(index: Int) -> Animation {
+        Animation.spring(dampingFraction: 0.5)
+            .speed(2)
+            .delay(0.03 * Double(index))
+    }
+}
+
+
 struct HikeGraph: View {
     var hike: Hike
     var path: KeyPath<Hike.Observation, Range<Double>>
@@ -40,7 +49,7 @@ struct HikeGraph: View {
         let data = hike.observations
         let overallRange = rangeOfRanges(data.lazy.map { $0[keyPath: self.path] })
         let maxMagnitude = data.map { magnitude(of: $0[keyPath: path]) }.max()!
-        let heightRatio = 1 - Length(maxMagnitude / magnitude(of: overallRange))
+        let heightRatio = 1 - CGFloat(maxMagnitude / magnitude(of: overallRange))
         
         return GeometryReader { proxy in
             HStack(alignment: .bottom, spacing: proxy.size.width / 120) {
@@ -50,9 +59,11 @@ struct HikeGraph: View {
                         height: proxy.size.height,
                         range: data[index][keyPath: self.path],
                         overallRange: overallRange)
-                        .colorMultiply(self.color)
-                    }
-                    .offset(x: 0, y: proxy.size.height * heightRatio)
+                    .colorMultiply(self.color)
+                    .transition(.slide)
+                    .animation(.ripple(index: index))
+                }
+                .offset(x: 0, y: proxy.size.height * heightRatio)
             }
         }
     }
